@@ -117,10 +117,9 @@ jobs:
             --name cnncls \
             --restart unless-stopped \
             -p 8080:8080 \
-            --env-file .env \
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+            -e AWS_REGION=us-east-1 \
             ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:${{ env.IMAGE_TAG }}
-  
-      - name: Remove Unused Images (Safe Cleanup)
-        run: |
-          docker image prune -f
+
 
